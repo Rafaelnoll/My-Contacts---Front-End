@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import {
   InputSearchContainer, Container, Header, ListContainer, Card,
 } from './styles';
@@ -16,7 +18,7 @@ function Home() {
 
       <Header>
         <strong>3 contatos</strong>
-        <a href="/">Novo contato</a>
+        <Link to="/new">Novo contato</Link>
       </Header>
 
       <ListContainer>
