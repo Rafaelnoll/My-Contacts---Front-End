@@ -1,0 +1,17 @@
+import p from 'prop-types';
+
+import { Container } from './styles';
+
+function FormGroup({ children }) {
+  return (
+    <Container>
+      {children}
+    </Container>
+  );
+}
+
+FormGroup.propTypes = {
+  children: p.node.isRequired,
+};
+
+export default FormGroup;

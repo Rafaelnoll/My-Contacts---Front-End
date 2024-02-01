@@ -1,3 +1,3 @@
 import styled from 'styled-components';
 
-export const ContainerForm = styled.form``;
+export const Form = styled.form``;

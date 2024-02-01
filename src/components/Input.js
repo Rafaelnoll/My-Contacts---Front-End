@@ -9,7 +9,6 @@ export default styled.input`
   border-radius: 4px;
   padding: 16px;
   font-size: 16px;
-  margin-bottom: 16px;
   outline: 0;
   transition: border-color 0.2s ease-in;
 
