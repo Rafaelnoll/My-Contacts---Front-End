@@ -5,7 +5,6 @@ export default styled.select`
   background-color: #fff;
   box-shadow: 0px 4px 10px 0px #0000000A;
   border: 2px solid #fff;
-  height: 52px;
   border-radius: 4px;
   padding: 16px;
   font-size: 16px;
