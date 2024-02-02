@@ -24,7 +24,7 @@ export const Container = styled.div`
 
   h1 {
     font-size: 22px;
-    color: ${({ theme, danger }) => (danger ? theme.colors.danger.medium : theme.colors.gray[900])};
+    color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.gray[900])};
   }
 
   p {

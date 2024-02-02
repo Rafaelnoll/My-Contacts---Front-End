@@ -8,7 +8,7 @@ export default styled.button`
   color: #fff;
   font-size: 16px;
   box-shadow: 0px 4px 10px 0px #0000000A;
-  background-color: ${({ theme, danger }) => (danger ? theme.colors.danger.medium : theme.colors.primary.main)};
+  background-color: ${({ theme, danger }) => (danger ? theme.colors.danger.main : theme.colors.primary.main)};
   transition: background-color 0.2s ease-in;
 
   &:hover {

@@ -7,10 +7,12 @@ import {
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import Modal from '../../components/Modal';
 
 function Home() {
   return (
     <Container>
+      <Modal title='Tem certeza que deseja remover o contato "Rafael Noll"?' confirmButtonText="Deletar" danger description="Essa ação não pode ser desfeita!" />
       <InputSearchContainer>
         <input placeholder="Pesquisar contato..." />
       </InputSearchContainer>

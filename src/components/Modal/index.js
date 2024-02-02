@@ -4,15 +4,21 @@ import {
   Container, Footer, Overlay,
 } from './styles';
 
-function Modal({ danger = false }) {
+function Modal({
+  danger = false,
+  title = 'Title',
+  description = '',
+  confirmButtonText = 'Confirmar',
+  cancelButtonText = 'Cancelar',
+}) {
   return (
     <Overlay>
       <Container danger={danger}>
-        <h1>Tem certeza que deseja remover o contato "Rafael Noll"?</h1>
-        <p>Esta ação não poderá ser desfeita!</p>
+        <h1>{title}</h1>
+        <p>{description}</p>
         <Footer>
-          <button className="cancel-button" type="button">Cancelar</button>
-          <Button danger={danger}>Deletar</Button>
+          <button className="cancel-button" type="button">{cancelButtonText}</button>
+          <Button danger={danger}>{confirmButtonText}</Button>
         </Footer>
       </Container>
     </Overlay>
@@ -21,6 +27,10 @@ function Modal({ danger = false }) {
 
 Modal.propTypes = {
   danger: p.bool,
+  title: p.string,
+  description: p.string,
+  confirmButtonText: p.string,
+  cancelButtonText: p.string,
 };
 
 export default Modal;
