@@ -11,7 +11,6 @@ import trash from '../../assets/images/icons/trash.svg';
 function Home() {
   return (
     <Container>
-
       <InputSearchContainer>
         <input placeholder="Pesquisar contato..." />
       </InputSearchContainer>
