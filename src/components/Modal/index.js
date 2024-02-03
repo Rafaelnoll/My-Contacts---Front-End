@@ -1,4 +1,6 @@
 import p from 'prop-types';
+import ReactDom from 'react-dom';
+
 import Button from '../Button';
 import {
   Container, Footer, Overlay,
@@ -11,7 +13,7 @@ function Modal({
   confirmButtonText = 'Confirmar',
   cancelButtonText = 'Cancelar',
 }) {
-  return (
+  return ReactDom.createPortal(
     <Overlay>
       <Container danger={danger}>
         <h1>{title}</h1>
@@ -21,7 +23,8 @@ function Modal({
           <Button danger={danger}>{confirmButtonText}</Button>
         </Footer>
       </Container>
-    </Overlay>
+    </Overlay>,
+    document.getElementById('modal-root'),
   );
 }
 
