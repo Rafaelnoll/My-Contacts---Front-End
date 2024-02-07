@@ -28,8 +28,8 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     });
   }
 
-  function getFieldError(field) {
-    return errors.find((error) => error.field === field);
+  function getFieldErrorMessage(field) {
+    return errors.find((error) => error.field === field)?.message;
   }
 
   function handleNameChange(event) {
@@ -38,7 +38,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     if (!event.target.value) {
       setErrors((prevState) => ([
         ...prevState,
-        { field: 'name', error: 'Nome é obrigatório' },
+        { field: 'name', message: 'Nome é obrigatório' },
       ]));
     } else {
       setErrors((prevState) => prevState.filter((error) => error.field !== 'name'));
@@ -49,13 +49,13 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const emailAlreadyExists = getFieldError('email');
+      const emailAlreadyExists = getFieldErrorMessage('email');
 
       if (emailAlreadyExists) return;
-
+      console.log(errors);
       setErrors((prevState) => ([
         ...prevState,
-        { fields: 'email', error: 'E-mail inválido' },
+        { field: 'email', message: 'E-mail inválido' },
       ]));
     } else {
       setErrors((prevState) => prevState.filter((error) => error.field !== 'email'));
@@ -64,12 +64,12 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup>
-        <Input placeholder="Nome" type="text" value={name} onChange={handleNameChange} />
+      <FormGroup error={getFieldErrorMessage('name')}>
+        <Input placeholder="Nome" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
       </FormGroup>
 
-      <FormGroup>
-        <Input placeholder="E-mail" type="email" value={email} onChange={handleEmailChange} />
+      <FormGroup error={getFieldErrorMessage('email')}>
+        <Input placeholder="E-mail" type="email" value={email} onChange={handleEmailChange} error={getFieldErrorMessage('email')} />
       </FormGroup>
 
       <FormGroup>
