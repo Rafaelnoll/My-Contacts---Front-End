@@ -8,6 +8,7 @@ import { Form } from './styles';
 import FormGroup from '../FormGroup';
 import { ButtonContainer } from '../FormGroup/styles';
 import isEmailValid from '../../utils/isEmailValid';
+import useErrors from '../../hooks/useErrors';
 
 function ContactForm({ buttonText = '', options = [], onConfirm }) {
   const [name, setName] = useState('');
@@ -15,7 +16,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
 
-  const [errors, setErrors] = useState([]);
+  const { getFieldErrorMessage, removeError, setError } = useErrors();
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -28,20 +29,13 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     });
   }
 
-  function getFieldErrorMessage(field) {
-    return errors.find((error) => error.field === field)?.message;
-  }
-
   function handleNameChange(event) {
     setName(event.target.value);
 
     if (!event.target.value) {
-      setErrors((prevState) => ([
-        ...prevState,
-        { field: 'name', message: 'Nome é obrigatório' },
-      ]));
+      setError({ field: 'name', message: 'Nome é obrigatório' });
     } else {
-      setErrors((prevState) => prevState.filter((error) => error.field !== 'name'));
+      removeError('name');
     }
   }
 
@@ -49,16 +43,9 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     setEmail(event.target.value);
 
     if (event.target.value && !isEmailValid(event.target.value)) {
-      const emailAlreadyExists = getFieldErrorMessage('email');
-
-      if (emailAlreadyExists) return;
-      console.log(errors);
-      setErrors((prevState) => ([
-        ...prevState,
-        { field: 'email', message: 'E-mail inválido' },
-      ]));
+      setError({ field: 'email', message: 'E-mail inválido' });
     } else {
-      setErrors((prevState) => prevState.filter((error) => error.field !== 'email'));
+      removeError('email');
     }
   }
 
