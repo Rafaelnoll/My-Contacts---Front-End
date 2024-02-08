@@ -17,10 +17,16 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
   const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
 
-  const { getFieldErrorMessage, removeError, setError } = useErrors();
+  const {
+    errors, getFieldErrorMessage, removeError, setError,
+  } = useErrors();
+
+  const isFormValid = name && errors.length === 0;
 
   function handleSubmit(event) {
     event.preventDefault();
+
+    if (!isFormValid) return;
 
     onConfirm({
       name,
@@ -57,7 +63,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
   return (
     <Form onSubmit={handleSubmit} noValidate>
       <FormGroup error={getFieldErrorMessage('name')}>
-        <Input placeholder="Nome" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
+        <Input placeholder="Nome *" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
       </FormGroup>
 
       <FormGroup error={getFieldErrorMessage('email')}>
@@ -77,7 +83,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
       </FormGroup>
 
       <ButtonContainer>
-        <Button type="submit">{buttonText}</Button>
+        <Button type="submit" disabled={!isFormValid}>{buttonText}</Button>
       </ButtonContainer>
     </Form>
   );
