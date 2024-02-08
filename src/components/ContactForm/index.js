@@ -9,6 +9,7 @@ import FormGroup from '../FormGroup';
 import { ButtonContainer } from '../FormGroup/styles';
 import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
+import formatPhone from '../../utils/formatPhone';
 
 function ContactForm({ buttonText = '', options = [], onConfirm }) {
   const [name, setName] = useState('');
@@ -24,7 +25,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     onConfirm({
       name,
       email,
-      phone,
+      phone: phone.replace(/\D/g, ''),
       category,
     });
   }
@@ -49,8 +50,12 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     }
   }
 
+  function handlePhone(event) {
+    setPhone(formatPhone(event.target.value));
+  }
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit} noValidate>
       <FormGroup error={getFieldErrorMessage('name')}>
         <Input placeholder="Nome" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
       </FormGroup>
@@ -60,7 +65,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
       </FormGroup>
 
       <FormGroup>
-        <Input placeholder="Telefone" type="text" value={phone} onChange={(e) => setPhone(e.target.value)} />
+        <Input maxLength="15" placeholder="Telefone" type="text" value={phone} onChange={handlePhone} />
       </FormGroup>
 
       <FormGroup>
