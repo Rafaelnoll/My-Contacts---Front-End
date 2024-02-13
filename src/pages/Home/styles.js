@@ -25,24 +25,29 @@ export const Container = styled.div`
 
 export const ListContainer = styled.div`
   margin-top: 16px;
+`;
 
-  header {
-    margin-bottom: 8px;
+export const ListHeader = styled.header`
+  margin-bottom: 8px;
 
-    button {
-      display: flex;
-      align-items: center;
+  button {
+    display: flex;
+    align-items: center;
 
-      background-color: transparent;
-      border: none;
+    background-color: transparent;
+    border: none;
 
-      & span {
-        font-weight: bold;
-        margin-right: 8px;
-        color: ${({ theme }) => theme.colors.primary.main};
-      }
+    span {
+      font-weight: bold;
+      margin-right: 8px;
+      color: ${({ theme }) => theme.colors.primary.main};
     }
-  }
+
+    img {
+      transition: transform 0.2s ease-in;
+      transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0)')};
+    }
+}
 `;
 
 export const Header = styled.header`
