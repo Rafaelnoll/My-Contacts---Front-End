@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import {
   InputSearchContainer, Container, Header, ListContainer, Card, ListHeader,
 } from './styles';
+
+import Loader from '../../components/Loader';
 
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
@@ -13,16 +15,20 @@ function Home() {
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const filtredContacts = contacts.filter((contact) => (
+  const filtredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
-  ));
+  )), [contacts, searchTerm]);
 
   useEffect(() => {
+    setIsLoading(true);
+
     fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
       .then((response) => response.json())
       .then((data) => setContacts(data))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   }, [orderBy]);
 
   function handleToogleOrderBy() {
@@ -35,6 +41,8 @@ function Home() {
 
   return (
     <Container>
+      <Loader isLoading={isLoading} />
+
       <InputSearchContainer>
         <input
           placeholder="Pesquisar contato..."
