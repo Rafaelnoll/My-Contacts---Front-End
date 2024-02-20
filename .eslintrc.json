@@ -15,6 +15,7 @@
       "import/prefer-default-export": "off",
       "react/require-default-props": "off",
       "react/no-unescaped-entities": "off",
-      "react/jsx-no-bind": "off"
+      "react/jsx-no-bind": "off",
+      "class-methods-use-this": "off"
     }
 }

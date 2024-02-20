@@ -10,6 +10,7 @@ import Loader from '../../components/Loader';
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import ContactService from '../../services/ContactService';
 
 function Home() {
   const [contacts, setContacts] = useState([]);
@@ -22,13 +23,19 @@ function Home() {
   )), [contacts, searchTerm]);
 
   useEffect(() => {
-    setIsLoading(true);
+    async function loadContacts() {
+      try {
+        setIsLoading(true);
+        const contactsList = await ContactService.listContacts();
+        setContacts(contactsList);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
 
-    fetch(`http://localhost:3001/contacts?orderBy=${orderBy}`)
-      .then((response) => response.json())
-      .then((data) => setContacts(data))
-      .catch((error) => console.log(error))
-      .finally(() => setIsLoading(false));
+    loadContacts();
   }, [orderBy]);
 
   function handleToogleOrderBy() {
