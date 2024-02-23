@@ -45,7 +45,7 @@ export const ListHeader = styled.header`
 
     img {
       transition: transform 0.2s ease-in;
-      transform: ${({ orderBy }) => (orderBy === 'asc' ? 'rotate(180deg)' : 'rotate(0)')};
+      transform: ${({ orderby }) => (orderby === 'asc' ? 'rotate(180deg)' : 'rotate(0)')};
     }
 }
 `;

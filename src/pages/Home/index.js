@@ -26,7 +26,7 @@ function Home() {
     async function loadContacts() {
       try {
         setIsLoading(true);
-        const contactsList = await ContactService.listContacts();
+        const contactsList = await ContactService.listContacts(orderBy);
         setContacts(contactsList);
       } catch (error) {
         console.log(error);
@@ -69,7 +69,7 @@ function Home() {
       <ListContainer>
         { filtredContacts.length > 0
         && (
-        <ListHeader orderBy={orderBy}>
+        <ListHeader orderby={orderBy}>
           <button type="button" onClick={handleToogleOrderBy}>
             <span>Nome</span>
             <img src={arrow} alt="Arrow" />
