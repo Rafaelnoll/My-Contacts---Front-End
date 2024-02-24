@@ -19,6 +19,23 @@ export const InputSearchContainer = styled.div`
   }
 `;
 
+export const ErrorInfoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  gap: 24px;
+
+  .info {
+    span {
+      font-size: 22px;
+      font-weight: bold;
+      color: ${({ theme }) => theme.colors.danger.main};
+      margin-bottom: 16px;
+      display: block;
+    }
+  }
+`;
+
 export const Container = styled.div`
   margin-top: 32px;
 `;
@@ -52,7 +69,7 @@ export const ListHeader = styled.header`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: space-between;
+  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
   align-items: center;
 
   padding-bottom: 16px;
