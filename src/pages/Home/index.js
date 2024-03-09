@@ -29,6 +29,8 @@ function Home() {
     try {
       setIsLoading(true);
       const contactsList = await ContactService.listContacts(orderBy);
+
+      setHasError(false);
       setContacts(contactsList);
     } catch {
       setHasError(true);
