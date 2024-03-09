@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const InputSearchContainer = styled.div`
   margin-bottom: 32px;
@@ -69,7 +69,7 @@ export const ListHeader = styled.header`
 
 export const Header = styled.header`
   display: flex;
-  justify-content: ${({ hasError }) => (hasError ? 'flex-end' : 'space-between')};
+  justify-content: ${({ justifyContent }) => justifyContent};
   align-items: center;
 
   padding-bottom: 16px;
@@ -88,10 +88,6 @@ export const Header = styled.header`
     padding: 8px 16px;
     font-weight: 600;
     transition: all 0.2s ease-in;
-
-    ${({ hasContacts }) => !hasContacts && css`
-      margin: 0 auto;
-    `}
 
     &:hover {
       color: #fff;
@@ -155,15 +151,16 @@ export const Card = styled.div`
 `;
 
 export const NoContactsContainer = styled.div`
-  margin-top: 16px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  img {
-    margin-bottom: 16px;
-  }
+  margin-top: 16px;
 
   p {
+    text-align: center;
     color: ${({ theme }) => theme.colors.gray[200]};
+    margin-top: 8px;
 
     strong {
       color: ${({ theme }) => theme.colors.primary.main};

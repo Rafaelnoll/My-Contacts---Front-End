@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
@@ -38,7 +39,6 @@ function Home() {
   )), [contacts, searchTerm]);
 
   const hasContacts = contacts.length > 0;
-  const numberOfContactsFound = filtredContacts.length > 0;
 
   const loadContacts = useCallback(async () => {
     try {
@@ -80,7 +80,10 @@ function Home() {
       </InputSearchContainer>
       )}
 
-      <Header hasError={hasError} hasContacts={hasContacts}>
+      <Header
+        // eslint-disable-next-line no-nested-ternary
+        justifyContent={hasError ? 'flex-end' : hasContacts ? 'space-between' : 'center'}
+      >
         {!hasError && hasContacts && (
           <strong>
             {filtredContacts.length}
@@ -100,20 +103,20 @@ function Home() {
       </ErrorInfoContainer>
       )}
 
-      {!hasError && !hasContacts && (
+      {(!hasError && !hasContacts && !isLoading) && (
         <NoContactsContainer>
           <img src={EmptyBox} alt="Caixa azul aberta" />
           <p>
             Você ainda não tem nenhum contato cadastrado! Clique no botão
-            <strong> ”Novo contato” </strong>
-            à cima para cadastrar o seu primeiro!
+            <strong> ”Novo contato” </strong> à cima para cadastrar o seu
+            primeiro!
           </p>
         </NoContactsContainer>
       )}
 
       {!hasError && hasContacts && (
         <ListContainer>
-          { numberOfContactsFound
+          { filtredContacts.length > 0
         && (
         <ListHeader orderby={orderBy}>
           <button type="button" onClick={handleToogleOrderBy}>
@@ -123,7 +126,7 @@ function Home() {
         </ListHeader>
         )}
 
-            {numberOfContactsFound ? filtredContacts.map((contact) => (
+            {(hasContacts && filtredContacts.length > 0) ? filtredContacts.map((contact) => (
               <Card key={contact.id}>
                 <div className="info">
                   <div className="contact-name">
