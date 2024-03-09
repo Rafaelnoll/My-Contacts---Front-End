@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const InputSearchContainer = styled.div`
   margin-bottom: 32px;
@@ -89,6 +89,10 @@ export const Header = styled.header`
     font-weight: 600;
     transition: all 0.2s ease-in;
 
+    ${({ hasContacts }) => !hasContacts && css`
+      margin: 0 auto;
+    `}
+
     &:hover {
       color: #fff;
       background-color: ${({ theme }) => theme.colors.primary.main};
@@ -148,4 +152,23 @@ export const Card = styled.div`
       margin-left: 8px;
     }
   }
+`;
+
+export const NoContactsContainer = styled.div`
+  margin-top: 16px;
+
+  img {
+    margin-bottom: 16px;
+  }
+
+  p {
+    color: ${({ theme }) => theme.colors.gray[200]};
+
+    strong {
+      color: ${({ theme }) => theme.colors.primary.main};
+    }
+
+  }
+
+  text-align: center;
 `;

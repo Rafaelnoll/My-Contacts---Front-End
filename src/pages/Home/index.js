@@ -4,7 +4,14 @@ import {
 import { Link } from 'react-router-dom';
 
 import {
-  InputSearchContainer, Container, Header, ListContainer, Card, ListHeader, ErrorInfoContainer,
+  InputSearchContainer,
+  Container,
+  Header,
+  ListContainer,
+  Card,
+  ListHeader,
+  ErrorInfoContainer,
+  NoContactsContainer,
 } from './styles';
 
 import Loader from '../../components/Loader';
@@ -13,6 +20,7 @@ import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sadIcon from '../../assets/images/icons/sad.svg';
+import EmptyBox from '../../assets/images/empty-box.svg';
 import ContactService from '../../services/ContactService';
 import Button from '../../components/Button';
 
@@ -22,6 +30,8 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+
+  const hasContacts = contacts.length > 0;
 
   const filtredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
@@ -57,6 +67,7 @@ function Home() {
     <Container>
       <Loader isLoading={isLoading} />
 
+      {hasContacts && (
       <InputSearchContainer>
         <input
           placeholder="Pesquisar contato..."
@@ -64,9 +75,10 @@ function Home() {
           onChange={handleChangeSearchTerm}
         />
       </InputSearchContainer>
+      )}
 
-      <Header hasError={hasError}>
-        {!hasError && (
+      <Header hasError={hasError} hasContacts={hasContacts}>
+        {!hasError && hasContacts && (
           <strong>
             {filtredContacts.length}
             {filtredContacts.length === 1 ? ' Contato' : ' Contatos'}
@@ -85,7 +97,18 @@ function Home() {
       </ErrorInfoContainer>
       )}
 
-      {!hasError && (
+      {!hasError && !hasContacts && (
+        <NoContactsContainer>
+          <img src={EmptyBox} alt="Caixa azul aberta" />
+          <p>
+            Você ainda não tem nenhum contato cadastrado! Clique no botão
+            <strong> ”Novo contato” </strong>
+            à cima para cadastrar o seu primeiro!
+          </p>
+        </NoContactsContainer>
+      )}
+
+      {!hasError && hasContacts && (
         <ListContainer>
           { filtredContacts.length > 0
         && (
