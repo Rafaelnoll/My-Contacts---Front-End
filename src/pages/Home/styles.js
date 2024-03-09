@@ -174,6 +174,10 @@ export const NoContactsFoundInSearchContainer = styled.div`
   align-items: center;
   gap: 24px;
 
+  img {
+    align-self: flex-start;
+  }
+
   p {
     color: ${({ theme }) => theme.colors.gray[200]};
     text-overflow: ellipsis;
