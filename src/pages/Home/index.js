@@ -12,6 +12,7 @@ import {
   ListHeader,
   ErrorInfoContainer,
   NoContactsContainer,
+  NoContactsFoundInSearchContainer,
 } from './styles';
 
 import Loader from '../../components/Loader';
@@ -21,6 +22,7 @@ import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 import sadIcon from '../../assets/images/icons/sad.svg';
 import EmptyBox from '../../assets/images/empty-box.svg';
+import MagnifierQuestion from '../../assets/images/magnifier-question.svg';
 import ContactService from '../../services/ContactService';
 import Button from '../../components/Button';
 
@@ -31,11 +33,12 @@ function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  const hasContacts = contacts.length > 0;
-
   const filtredContacts = useMemo(() => contacts.filter((contact) => (
     contact.name.toLowerCase().includes(searchTerm.toLocaleLowerCase())
   )), [contacts, searchTerm]);
+
+  const hasContacts = contacts.length > 0;
+  const numberOfContactsFound = filtredContacts.length > 0;
 
   const loadContacts = useCallback(async () => {
     try {
@@ -110,7 +113,7 @@ function Home() {
 
       {!hasError && hasContacts && (
         <ListContainer>
-          { filtredContacts.length > 0
+          { numberOfContactsFound
         && (
         <ListHeader orderby={orderBy}>
           <button type="button" onClick={handleToogleOrderBy}>
@@ -120,30 +123,39 @@ function Home() {
         </ListHeader>
         )}
 
-          {filtredContacts.map((contact) => (
-            <Card key={contact.id}>
-              <div className="info">
-                <div className="contact-name">
-                  <strong>{contact.name}</strong>
-                  {contact.category_name && <small>{contact.category_name}</small>}
+            {numberOfContactsFound ? filtredContacts.map((contact) => (
+              <Card key={contact.id}>
+                <div className="info">
+                  <div className="contact-name">
+                    <strong>{contact.name}</strong>
+                    {contact.category_name && <small>{contact.category_name}</small>}
+                  </div>
+
+                  {contact.email && <span>{contact.email}</span>}
+                  {contact.phone && <span>{contact.phone}</span>}
                 </div>
 
-                {contact.email && <span>{contact.email}</span>}
-                {contact.phone && <span>{contact.phone}</span>}
-              </div>
+                <div className="actions">
+                  <a href={`/edit/${contact.id}`}>
+                    <img src={edit} alt="Edit" />
+                  </a>
 
-              <div className="actions">
-                <a href={`/edit/${contact.id}`}>
-                  <img src={edit} alt="Edit" />
-                </a>
+                  <button type="button">
+                    <img src={trash} alt="Delete" />
+                  </button>
+                </div>
 
-                <button type="button">
-                  <img src={trash} alt="Delete" />
-                </button>
-              </div>
-
-            </Card>
-          ))}
+              </Card>
+            )) : (
+              <NoContactsFoundInSearchContainer>
+                <img src={MagnifierQuestion} alt="Lupa vermelha com sinal de interrogação" />
+                <p>
+                  Nenhum resultado foi encontrado para ”
+                  {searchTerm}
+                  ”.
+                </p>
+              </NoContactsFoundInSearchContainer>
+            )}
         </ListContainer>
       )}
     </Container>

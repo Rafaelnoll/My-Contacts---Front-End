@@ -156,6 +156,7 @@ export const Card = styled.div`
 
 export const NoContactsContainer = styled.div`
   margin-top: 16px;
+  text-align: center;
 
   img {
     margin-bottom: 16px;
@@ -169,6 +170,16 @@ export const NoContactsContainer = styled.div`
     }
 
   }
+`;
 
-  text-align: center;
+export const NoContactsFoundInSearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 24px;
+
+  p {
+    color: ${({ theme }) => theme.colors.gray[200]};
+    text-overflow: ellipsis;
+    word-break: break-all
+  }
 `;
