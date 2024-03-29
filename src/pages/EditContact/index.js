@@ -5,7 +5,7 @@ function EditContact() {
   return (
     <>
       <PageHeader title="Editar Contato" />
-      <ContactForm buttonText="Salvar alterações" options={[]} />
+      <ContactForm buttonText="Salvar alterações" />
     </>
   );
 }

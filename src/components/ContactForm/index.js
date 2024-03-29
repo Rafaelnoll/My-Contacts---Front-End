@@ -1,6 +1,6 @@
 import p from 'prop-types';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../Button';
 import Input from '../Input';
 import Select from '../Select';
@@ -10,12 +10,16 @@ import { ButtonContainer } from '../FormGroup/styles';
 import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
+import CategoryService from '../../services/CategoryService';
+import Loader from '../Loader';
 
-function ContactForm({ buttonText = '', options = [], onConfirm }) {
+function ContactForm({ buttonText = '', onConfirm }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [category, setCategory] = useState('');
+  const [categorySelected, setCategorySelected] = useState('');
+  const [categories, setCategories] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const {
     errors, getFieldErrorMessage, removeError, setError,
@@ -32,7 +36,7 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
       name,
       email,
       phone: phone.replace(/\D/g, ''),
-      category,
+      category: categorySelected,
     });
   }
 
@@ -60,8 +64,24 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
     setPhone(formatPhone(event.target.value));
   }
 
+  useEffect(() => {
+    async function loadCategories() {
+      try {
+        setIsLoading(true);
+        const data = await CategoryService.listCategories();
+        setCategories(data);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    loadCategories();
+  }, []);
+
   return (
     <Form onSubmit={handleSubmit} noValidate>
+      <Loader isLoading={isLoading} />
+
       <FormGroup error={getFieldErrorMessage('name')}>
         <Input placeholder="Nome *" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
       </FormGroup>
@@ -75,10 +95,10 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
       </FormGroup>
 
       <FormGroup>
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <Select value={categorySelected} onChange={(e) => setCategorySelected(e.target.value)}>
           <option value="">Sem Categoria</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>{option.label}</option>))}
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>{category.name}</option>))}
         </Select>
       </FormGroup>
 
@@ -92,7 +112,6 @@ function ContactForm({ buttonText = '', options = [], onConfirm }) {
 ContactForm.propTypes = {
   buttonText: p.string,
   onConfirm: p.func,
-  options: p.arrayOf(p.shape({ value: p.string, label: p.string })).isRequired,
 };
 
 export default ContactForm;
