@@ -11,7 +11,6 @@ import isEmailValid from '../../utils/isEmailValid';
 import useErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
 import CategoryService from '../../services/CategoryService';
-import Loader from '../Loader';
 
 function ContactForm({ buttonText = '', onConfirm }) {
   const [name, setName] = useState('');
@@ -19,7 +18,7 @@ function ContactForm({ buttonText = '', onConfirm }) {
   const [phone, setPhone] = useState('');
   const [categorySelected, setCategorySelected] = useState('');
   const [categories, setCategories] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
   const {
     errors, getFieldErrorMessage, removeError, setError,
@@ -67,11 +66,11 @@ function ContactForm({ buttonText = '', onConfirm }) {
   useEffect(() => {
     async function loadCategories() {
       try {
-        setIsLoading(true);
+        setIsLoadingCategories(true);
         const data = await CategoryService.listCategories();
         setCategories(data);
       } catch {} finally {
-        setIsLoading(false);
+        setIsLoadingCategories(false);
       }
     }
 
@@ -80,8 +79,6 @@ function ContactForm({ buttonText = '', onConfirm }) {
 
   return (
     <Form onSubmit={handleSubmit} noValidate>
-      <Loader isLoading={isLoading} />
-
       <FormGroup error={getFieldErrorMessage('name')}>
         <Input placeholder="Nome *" type="text" value={name} onChange={handleNameChange} error={getFieldErrorMessage('name')} />
       </FormGroup>
@@ -94,8 +91,12 @@ function ContactForm({ buttonText = '', onConfirm }) {
         <Input maxLength="15" placeholder="Telefone" type="text" value={phone} onChange={handlePhone} />
       </FormGroup>
 
-      <FormGroup>
-        <Select value={categorySelected} onChange={(e) => setCategorySelected(e.target.value)}>
+      <FormGroup isLoading={isLoadingCategories}>
+        <Select
+          disabled={isLoadingCategories}
+          value={categorySelected}
+          onChange={(e) => setCategorySelected(e.target.value)}
+        >
           <option value="">Sem Categoria</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>{category.name}</option>))}

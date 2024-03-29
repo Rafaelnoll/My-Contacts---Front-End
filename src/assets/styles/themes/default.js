@@ -9,9 +9,10 @@ export default {
       darker: '#3346F0',
     },
     gray: {
+      900: '#222222',
       '200-opacity-20': '#BCBCBC33',
       200: '#BCBCBC',
-      900: '#222222',
+      100: '#E5E5E5',
     },
     danger: {
       light: '#F97171',
