@@ -16,6 +16,7 @@
       "react/require-default-props": "off",
       "react/no-unescaped-entities": "off",
       "react/jsx-no-bind": "off",
-      "class-methods-use-this": "off"
+      "class-methods-use-this": "off",
+      "no-empty": ["error", { "allowEmptyCatch": true }]
     }
 }

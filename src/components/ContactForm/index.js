@@ -70,7 +70,7 @@ function ContactForm({ buttonText = '', onConfirm }) {
         setIsLoading(true);
         const data = await CategoryService.listCategories();
         setCategories(data);
-      } finally {
+      } catch {} finally {
         setIsLoading(false);
       }
     }
