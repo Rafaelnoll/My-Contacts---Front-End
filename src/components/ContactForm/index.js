@@ -12,7 +12,7 @@ import useErrors from '../../hooks/useErrors';
 import formatPhone from '../../utils/formatPhone';
 import CategoryService from '../../services/CategoryService';
 
-function ContactForm({ buttonText = '', onConfirm }) {
+function ContactForm({ buttonText = '', onSubmit }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -31,7 +31,7 @@ function ContactForm({ buttonText = '', onConfirm }) {
 
     if (!isFormValid) return;
 
-    onConfirm({
+    onSubmit({
       name,
       email,
       phone: phone.replace(/\D/g, ''),
@@ -112,7 +112,7 @@ function ContactForm({ buttonText = '', onConfirm }) {
 
 ContactForm.propTypes = {
   buttonText: p.string,
-  onConfirm: p.func,
+  onSubmit: p.func,
 };
 
 export default ContactForm;
